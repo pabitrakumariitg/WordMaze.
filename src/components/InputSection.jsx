@@ -2,26 +2,31 @@ import React, { useRef, useState } from "react";
 
 const InputSection = ({ answer, row }) => {
   const [guess, setGuess] = useState("");
-  const inputRefs = Array.from({ length: 5 }, () => useRef(null));
+  const inputRefs = Array.from({ length: answer.length }, () => useRef(null));
 
   const handleChange = (index, event) => {
     const str = event.target.value.toUpperCase();
-    if (str.length === 1 && index < inputRefs.length - 1) {
-      inputRefs[index + 1].current.focus();
-      setGuess(guess + str);
-    } else if (str.length === 1 && index === inputRefs.length - 1) {
-      setGuess(guess + str);
+    if (/^[A-Z]$/.test(str)) {
+      setGuess((prevGuess) => {
+        const newGuess = prevGuess.substring(0, index) + str + prevGuess.substring(index + 1);
+        return newGuess;
+      });
+
+      if (index < inputRefs.length - 1) {
+        inputRefs[index + 1].current.focus();
+      }
     }
   };
 
   const handleBackspace = (event, index) => {
-    if (index > 0 && event.target.value !== "") {
-      inputRefs[index].current.focus();
-      setGuess(guess.slice(0, -1));
-    } else if (index > 0 && event.target.value === "") {
+    if (index > 0 && event.target.value === "") {
       inputRefs[index - 1].current.focus();
-      setGuess(guess.slice(0, -1));
     }
+
+    setGuess((prevGuess) => {
+      const newGuess = prevGuess.substring(0, index - 1) + prevGuess.substring(index);
+      return newGuess;
+    });
   };
 
   const handleEnter = () => {
@@ -45,12 +50,13 @@ const InputSection = ({ answer, row }) => {
 
   return (
     <div className="input">
-      {inputRefs.map((inputRef, index) => (
+      {Array.from(answer).map((_, index) => (
         <input
           key={index}
-          ref={inputRef}
+          ref={inputRefs[index]}
           className="input-row"
           maxLength={1}
+          value={guess[index] || ""}
           onChange={(event) => handleChange(index, event)}
           onKeyDown={(event) => {
             if (event.key === "Backspace") {

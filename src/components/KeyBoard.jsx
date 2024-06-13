@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 
@@ -21,7 +21,11 @@ const KeyBoard = () => {
     handleClick(char);
   };
 
-  React.useEffect(() => {
+  const handleTouchStart = (char) => {
+    handleClick(char);
+  };
+
+  useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
@@ -39,6 +43,7 @@ const KeyBoard = () => {
             variant="contained"
             size="medium"
             onClick={() => handleButtonClick(char)}
+            onTouchStart={() => handleTouchStart(char)}
             style={{ backgroundColor: isUsed(char) ? "#ddd" : undefined }}
           >
             {char}
@@ -53,6 +58,7 @@ const KeyBoard = () => {
             variant="contained"
             size="medium"
             onClick={() => handleButtonClick(char)}
+            onTouchStart={() => handleTouchStart(char)}
             style={{ backgroundColor: isUsed(char) ? "#ddd" : undefined }}
           >
             {char}
@@ -65,6 +71,7 @@ const KeyBoard = () => {
           variant="contained"
           size="medium"
           onClick={() => handleButtonClick("Enter")}
+          onTouchStart={() => handleTouchStart("Enter")}
         >
           Enter
         </Button>
@@ -74,6 +81,7 @@ const KeyBoard = () => {
             variant="contained"
             size="medium"
             onClick={() => handleButtonClick(char)}
+            onTouchStart={() => handleTouchStart(char)}
             style={{ backgroundColor: isUsed(char) ? "#ddd" : undefined }}
           >
             {char}
@@ -81,6 +89,7 @@ const KeyBoard = () => {
         ))}
         <BackspaceIcon
           onClick={() => handleButtonClick("Backspace")}
+          onTouchStart={() => handleTouchStart("Backspace")}
           style={{ cursor: "pointer" }}
         />
       </div>
