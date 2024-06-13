@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <TableRowsRoundedIcon sx={{ fontSize: 60 }} />
-      <h1 className="middle">Word Maze </h1>
+      <h1 className="middle">WordMaze </h1>
       <div className="right">
         <HelpOutlineRoundedIcon sx={{ fontSize: 60 }} />
         <EqualizerIcon sx={{ fontSize: 60 }} />
