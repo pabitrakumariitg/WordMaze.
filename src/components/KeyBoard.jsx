@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 
@@ -12,12 +12,16 @@ const KeyBoard = () => {
 
   const handleKeyPress = (event) => {
     const char = event.key.toUpperCase();
-    if (/^[A-Z]$/.test(char) || char === "ENTER" || char === "BACKSPACE") {
+    if (/^[A-Z]$/.test(char) || char === "Enter" || char === "Backspace") {
       handleClick(char);
     }
   };
 
-  useEffect(() => {
+  const handleButtonClick = (char) => {
+    handleClick(char);
+  };
+
+  React.useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
@@ -34,7 +38,7 @@ const KeyBoard = () => {
             key={char}
             variant="contained"
             size="medium"
-            onClick={() => handleClick(char)}
+            onClick={() => handleButtonClick(char)}
             style={{ backgroundColor: isUsed(char) ? "#ddd" : undefined }}
           >
             {char}
@@ -48,7 +52,7 @@ const KeyBoard = () => {
             key={char}
             variant="contained"
             size="medium"
-            onClick={() => handleClick(char)}
+            onClick={() => handleButtonClick(char)}
             style={{ backgroundColor: isUsed(char) ? "#ddd" : undefined }}
           >
             {char}
@@ -60,7 +64,7 @@ const KeyBoard = () => {
         <Button
           variant="contained"
           size="medium"
-          onClick={() => handleClick("ENTER")}
+          onClick={() => handleButtonClick("Enter")}
         >
           Enter
         </Button>
@@ -69,14 +73,14 @@ const KeyBoard = () => {
             key={char}
             variant="contained"
             size="medium"
-            onClick={() => handleClick(char)}
+            onClick={() => handleButtonClick(char)}
             style={{ backgroundColor: isUsed(char) ? "#ddd" : undefined }}
           >
             {char}
           </Button>
         ))}
         <BackspaceIcon
-          onClick={() => handleClick("BACKSPACE")}
+          onClick={() => handleButtonClick("Backspace")}
           style={{ cursor: "pointer" }}
         />
       </div>
